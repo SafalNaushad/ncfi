@@ -1,0 +1,47 @@
+Reusable components add conditional validation reactive form get.set validators angular 
+
+In Angular, you can use Reactive Forms to add conditional validation to a reusable component. Here's an example of how you could do this:
+
+Copy code
+import { Component, Input } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-reusable-input',
+  template: `
+    <input [formControl]="control" [required]="isRequired">
+  `
+})
+export class ReusableInputComponent {
+  @Input() isRequired: boolean;
+  control = new FormControl('', []);
+
+  ngOnInit() {
+    if (this.isRequired) {
+      this.control.setValidators([Validators.required]);
+    }
+  }
+
+  get valid() {
+    return this.control.valid;
+  }
+
+  get value() {
+    return this.control.value;
+  }
+}
+In this example, we have a reusable input component that takes in a boolean input isRequired. When the component is initialized, we check the value of isRequired and set the validator on the form control accordingly.
+We also added a get valid() method which returns the valid state of the form control and a get value() method which returns the value of the form control.
+
+In the parent component where you're using this reusable component, you can use the isRequired input to control whether the input field is required or not.
+
+Copy code
+<app-reusable-input [isRequired]="isFieldRequired"></app-reusable-input>
+where isFieldRequired is a property in the parent component.
+You can also use the valid and value getters in the parent component to check the valid state and value of the input field.
+
+Copy code
+if (this.reusableInput.valid) {
+  console.log(this.reusableInput.value);
+}
+This way you can create a reusable component that can be used with different validation requirements in different parts of your application.
