@@ -1,0 +1,49 @@
+
+Dynamic reactive form validation in reusable components @Input properties angular
+
+Yes, using @Input properties to pass validation rules and error messages to a reusable component is one way to create dynamic reactive form validation in reusable components.
+
+When using this approach, the reusable component should have a form control property and set the validation rules on it in the ngOnInit lifecycle hook based on the input properties. The component should also have a template that displays any validation errors if the form control is invalid and dirty or touched.
+
+It's also a good practice to have a default validation rule (like the Validators.required) in the form control property, in case the input properties are not passed from the parent component.
+
+Additionally, you can also use the ngOnChanges lifecycle hook to update the validation rules when the input properties change.
+
+Here's an example of how a reusable form input component can use @Input properties for dynamic validation:
+
+import { Component, Input } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-form-input',
+  template: `
+    <input [formControl]="control">
+    <div *ngIf="control.invalid && (control.dirty || control.touched)">
+      <div *ngIf="control.errors.required">This field is required</div>
+      <div *ngIf="control.errors.min">Minimum value is {{min}}</div>
+      <div *ngIf="control.errors.max">Maximum value is {{max}}</div>
+    </div>
+  `
+})
+export class FormInputComponent {
+  @Input() min: number;
+  @Input() max: number;
+  control = new FormControl('', Validators.required);
+
+  ngOnInit() {
+    this.setValidators();
+  }
+  ngOnChanges(){
+    this.setValidators();
+  }
+
+  setValidators(){
+    this.control.setValidators([
+      Validators.min(this.min),
+      Validators.max(this.max)
+    ]);
+    this.control.updateValueAndValidity();
+  }
+}
+
+In this example, the parent component can set the "min" and "max" input properties to configure the validation for the form input. The reusable component uses these input properties to set the validators on the form control and update the validation error messages in the template.
