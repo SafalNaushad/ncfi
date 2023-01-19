@@ -1,0 +1,66 @@
+Safal Naushad
+Reactive form When a checkbox checked a input form must be valid else not valid
+
+In Angular, you can use the Validators.requiredTrue validator on an input field that is connected to a checkbox. This validator will make the input field required when the checkbox is checked, and not required when the checkbox is not checked. You can also use the required attribute on the input field and set the [required] binding to the checkbox's checked property. This will make the input field required when the checkbox is checked and not required when the checkbox is not checked.
+
+
+
+
+Safal Naushad
+Set Reactive form When a checkbox checked a input form must be valid else not valid
+
+Here is an example of how you can set up a reactive form in Angular that makes an input field required when a checkbox is checked, and not required when the checkbox is not checked:
+
+In your component's class:
+
+Copy code
+form: FormGroup;
+ 
+ngOnInit() {
+  this.form = new FormGroup({
+    checkbox: new FormControl(false),
+    input: new FormControl(null, [Validators.requiredTrue])
+  });
+}
+In your template:
+
+Copy code
+<form [formGroup]="form">
+  <input type="checkbox" formControlName="checkbox">
+  <input type="text" formControlName="input">
+</form>
+This will create a form with two controls: checkbox and input. The checkbox control is a boolean and the input control is a string. The input control has a validator that checks for requiredTrue property.
+
+When the checkbox is checked, the input field will be required and when checkbox is unchecked, the input field will not be required.
+
+
+
+
+Safal Naushad
+Set Reactive form When a checkbox checked a input form must be required else not  required angular 
+
+Here is an example of how you can set up a reactive form in Angular that makes an input field required when a checkbox is checked, and not required when the checkbox is not checked:
+
+In your component's class:
+
+Copy code
+form: FormGroup;
+ 
+ngOnInit() {
+  this.form = new FormGroup({
+    checkbox: new FormControl(false),
+    input: new FormControl(null)
+  });
+}
+In your template:
+
+Copy code
+<form [formGroup]="form">
+  <input type="checkbox" formControlName="checkbox">
+  <input type="text" formControlName="input" [required]="form.get('checkbox').value">
+</form>
+This will create a form with two controls: checkbox and input. The checkbox control is a boolean and the input control is a string. The input control has a required attribute
+
+When the checkbox is checked, the input field will be required and when checkbox is unchecked, the input field will not be required.
+
+You can also use [required]="form.get('checkbox').value" to bind the checkbox value to the input field, so that when the checkbox is checked, the input field will be required and when it's unchecked, the input field will not be required.
