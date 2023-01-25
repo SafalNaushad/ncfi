@@ -1,0 +1,42 @@
+
+When switch to rtl change font to Noto Kufi Arabic in css
+
+To change the font to Noto Kufi Arabic when switching to RTL (right-to-left) in CSS, you can use the :dir(rtl) pseudo-class along with the font-family property. Here's an example:
+
+Copy code
+:dir(rtl) {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+}
+This will apply the Noto Kufi Arabic font to any element that has its dir attribute set to rtl. You can also use the :rtl pseudo-class as well.
+
+Copy code
+:rtl {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+}
+You may also use CSS variables or preprocessor variables to change the font based on a global variable like :root { --main-font: 'Noto Kufi Arabic'; } and then you can use it in all rtl selectors :rtl { font-family: var(--main-font); }
+Please note that you should have Noto Kufi Arabic font installed on the user's device or you can use webfonts to use the font.
+
+
+
+
+Safal Naushad
+Import Noto Kufi Arabic font. When switch to rtl change font in css.
+
+To import the Noto Kufi Arabic font in your CSS, you can use the @font-face rule. Here's an example:
+
+Copy code
+@font-face {
+  font-family: 'Noto Kufi Arabic';
+  src: url('path/to/NotoKufiArabic-Regular.ttf') format('truetype');
+}
+You will need to replace path/to/NotoKufiArabic-Regular.ttf with the actual path to the font file on your server.
+You can also use webfonts like Google fonts by adding a link tag to the head of your HTML file like this:
+
+Copy code
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
+Then you can apply the font to any element using the font-family property:
+
+Copy code
+:rtl {
+  font-family: 'Noto Kufi Arabic', sans-serif;
+}
