@@ -1,0 +1,39 @@
+Open sidebar
+Angular Reload Router Dirty Alert
+
+
+Safal Naushad
+Angular reload and router change form dirty alert example
+
+An example of using an "unsaved changes" alert in Angular when navigating away from a form using the router could involve using the router's NavigationStart event to check if the form is dirty (has been modified by the user) before navigating away. If the form is dirty, the alert could be displayed to the user to confirm that they want to discard their changes.
+
+Here is an example of how this could be implemented:
+
+In your component's constructor, subscribe to the router's NavigationStart event:
+typescript
+Copy code
+constructor(private router: Router, private form: FormGroup) {
+    this.router.events.subscribe(event => {
+        if (event instanceof NavigationStart) {
+            this.checkDirtyForm();
+        }
+    });
+}
+Create a method to check if the form is dirty and display the alert if necessary:
+javascript
+Copy code
+checkDirtyForm() {
+    if (this.form.dirty) {
+        if (!confirm('You have unsaved changes. Are you sure you want to leave this page?')) {
+            this.router.navigated = false;
+        }
+    }
+}
+Note: The above example uses the JavaScript confirm() function to display the alert, but you could also use a library or your own implementation of an alert to achieve the same effect.
+
+
+
+
+
+
+ChatGPT Jan 9 Version. Free Research Preview. Our goal is to make AI systems more natural and safe to interact with. Your feedback will help us improve.
