@@ -1,0 +1,165 @@
+Angular RTL Name Switch
+
+
+Safal Naushad
+Using api data nameEn in drop down when switch to rtl mode change to nameAr in angular
+
+To change the display of nameEn to nameAr in a dropdown in Angular when switching to RTL mode, you can use a ternary operator in the template to conditionally display the value based on the current direction.
+
+Here's an example:
+
+In your component:
+
+kotlin
+Copy code
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <select [dir]="isRtl ? 'rtl' : 'ltr'">
+      <option *ngFor="let item of items">{{ isRtl ? item.nameAr : item.nameEn }}</option>
+    </select>
+    <button (click)="toggleDirection()">Toggle Direction</button>
+  `,
+})
+export class AppComponent {
+  isRtl = false;
+  items = [
+    { nameEn: 'English 1', nameAr: 'Arabic 1' },
+    { nameEn: 'English 2', nameAr: 'Arabic 2' },
+    { nameEn: 'English 3', nameAr: 'Arabic 3' },
+  ];
+
+  toggleDirection() {
+    this.isRtl = !this.isRtl;
+  }
+}
+In this example, we have a select element with its dir binding set to either 'rtl' or 'ltr' based on the value of isRtl. The options are generated using ngFor and display either item.nameAr or item.nameEn based on isRtl. A button is also provided to toggle the value of isRtl.
+
+
+
+
+Safal Naushad
+Using api data nameEn in drop down when switch to rtl mode change to nameAr using a service angular
+
+To change the display of nameEn to nameAr in a dropdown in Angular when switching to RTL mode using a service, you can create a service that exposes a method to switch the direction and subscribe to the changes in your component.
+
+Here's an example:
+
+In a service:
+
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirectionService {
+  private directionSubject = new BehaviorSubject<string>('ltr');
+  direction$ = this.directionSubject.asObservable();
+
+  toggleDirection() {
+    this.directionSubject.next(this.directionSubject.getValue() === 'ltr' ? 'rtl' : 'ltr');
+  }
+}
+In your component:
+
+css
+Copy code
+import { Component } from '@angular/core';
+import { DirectionService } from './direction.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <select [dir]="direction">
+      <option *ngFor="let item of items">{{ direction === 'rtl' ? item.nameAr : item.nameEn }}</option>
+    </select>
+    <button (click)="directionService.toggleDirection()">Toggle Direction</button>
+  `,
+})
+export class AppComponent {
+  direction: string;
+  items = [    { nameEn: 'English 1', nameAr: 'Arabic 1' },    { nameEn: 'English 2', nameAr: 'Arabic 2' },    { nameEn: 'English 3', nameAr: 'Arabic 3' },  ];
+
+  constructor(private directionService: DirectionService) {
+    this.directionService.direction$.subscribe(direction => this.direction = direction);
+  }
+}
+In this example, the DirectionService exposes a behavior subject directionSubject to store the current direction and a direction$ observable to subscribe to the changes. The toggleDirection method switches the value of the subject between 'ltr' and 'rtl'.
+
+In the component, the select element's dir binding is set to direction, which is updated in the subscription to direction$. The options display either item.nameAr or item.nameEn based on the value of direction. A button is provided to toggle the direction by calling the toggleDirection method on the service.
+
+
+
+
+Safal Naushad
+Using api data nameEn in drop down when switch to rtl mode in header component change to nameAr using a service angular
+
+To change the display of nameEn in a dropdown to nameAr in Angular when switching to RTL mode in a header component using a service, you can create a service that exposes a method to switch the direction and subscribe to the changes in your header component, then pass the direction value to the dropdown component.
+
+Here's an example:
+
+In a service:
+
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirectionService {
+  private directionSubject = new BehaviorSubject<string>('ltr');
+  direction$ = this.directionSubject.asObservable();
+
+  toggleDirection() {
+    this.directionSubject.next(this.directionSubject.getValue() === 'ltr' ? 'rtl' : 'ltr');
+  }
+}
+In header component:
+
+kotlin
+Copy code
+import { Component } from '@angular/core';
+import { DirectionService } from './direction.service';
+
+@Component({
+  selector: 'app-header',
+  template: `
+    <button (click)="directionService.toggleDirection()">Toggle Direction</button>
+    <app-dropdown [direction]="direction"></app-dropdown>
+  `,
+})
+export class HeaderComponent {
+  direction: string;
+
+  constructor(private directionService: DirectionService) {
+    this.directionService.direction$.subscribe(direction => this.direction = direction);
+  }
+}
+In dropdown component:
+
+css
+Copy code
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-dropdown',
+  template: `
+    <select [dir]="direction">
+      <option *ngFor="let item of items">{{ direction === 'rtl' ? item.nameAr : item.nameEn }}</option>
+    </select>
+  `,
+})
+export class DropdownComponent {
+  @Input() direction: string;
+  items = [    { nameEn: 'English 1', nameAr: 'Arabic 1' },    { nameEn: 'English 2', nameAr: 'Arabic 2' },    { nameEn: 'English 3', nameAr: 'Arabic 3' },  ];
+}
+In this example, the DirectionService is the same as the previous answer. The header component subscribes to the direction$ observable and sets the value of direction to the value emitted by the observable. The header component also includes the dropdown component and passes the direction value to it as an input.
+
+The dropdown component receives the direction value as an input and sets its dir binding to direction. The options display either item.nameAr or item.nameEn based on the value of direction.
