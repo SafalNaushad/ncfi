@@ -1,0 +1,64 @@
+Header Component HTML:
+
+Copy code
+<button (click)="switchDirection()">Switch Direction</button>
+Header Component TypeScript:
+
+typescript
+Copy code
+import { DirectionService } from './direction.service';
+
+constructor(private dirService: DirectionService) {}
+
+switchDirection() {
+  this.dirService.switchDirection();
+}
+
+
+Direction Service:
+
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirectionService {
+  direction$ = new BehaviorSubject<string>('ltr');
+
+  switchDirection() {
+    this.direction$.next(this.direction$.value === 'ltr' ? 'rtl' : 'ltr');
+  }
+}
+
+
+Dropdown Component HTML:
+
+php
+Copy code
+<select [(ngModel)]="selectedOption">
+  <option *ngFor="let item of options" [value]="item.nameEn">
+    <ng-container *ngIf="dirService.direction$ | async === 'ltr'">{{item.nameEn}}</ng-container>
+    <ng-container *ngIf="dirService.direction$ | async === 'rtl'">{{item.nameAr}}</ng-container>
+  </option>
+</select>
+
+
+
+Dropdown Component TypeScript:
+
+css
+Copy code
+import { DirectionService } from './direction.service';
+
+constructor(private dirService: DirectionService) {}
+
+options: any[] = [
+  { nameEn: 'Option 1', nameAr: 'الخيار 1' },
+  { nameEn: 'Option 2', nameAr: 'الخيار 2' },
+  { nameEn: 'Option 3', nameAr: 'الخيار 3' }
+];
+selectedOption: string;
+Note: You'll need to replace the fetchData function with a call to your API to retrieve the options data.
