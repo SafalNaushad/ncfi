@@ -1,0 +1,67 @@
+from an API data nameEn key variable shown in the dropdown list. when switching ltr to rtl direction in header component button show nameAr key variable 
+in dropdown list using a service angular
+
+To switch the dropdown list from nameEn to nameAr in an Angular application, you can use a service to manage the state of the current language direction. 
+Here's an example of how you could implement this:
+
+1, Create a service to manage the language state:
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LanguageService {
+  private language: string;
+
+  constructor() {
+    this.language = 'ltr';
+  }
+
+  getLanguage() {
+    return this.language;
+  }
+
+  toggleLanguage() {
+    this.language = this.language === 'ltr' ? 'rtl' : 'ltr';
+  }
+}
+
+
+2, Inject the service into your header component and use it to control the dropdown list:
+kotlin
+Copy code
+import { Component } from '@angular/core';
+import { LanguageService } from './language.service';
+
+@Component({
+  selector: 'app-header',
+  template: `
+    <button (click)="toggleLanguage()">Toggle Language</button>
+    <select [ngModel]="selectedLanguage">
+      <option *ngFor="let item of data" [value]="item[language === 'ltr' ? 'nameEn' : 'nameAr']">
+        {{ item[language === 'ltr' ? 'nameEn' : 'nameAr'] }}
+      </option>
+    </select>
+  `
+})
+export class HeaderComponent {
+  data = [
+    { nameEn: 'English', nameAr: 'إنجليزي' },
+    { nameEn: 'Arabic', nameAr: 'عربي' },
+    { nameEn: 'French', nameAr: 'Français' }
+  ];
+  selectedLanguage: string;
+  language: string;
+
+  constructor(private languageService: LanguageService) {
+    this.language = this.languageService.getLanguage();
+  }
+
+  toggleLanguage() {
+    this.languageService.toggleLanguage();
+    this.language = this.languageService.getLanguage();
+  }
+}
+Now, when you click the "Toggle Language" button, the dropdown list will switch between displaying the nameEn and nameAr keys in the data
