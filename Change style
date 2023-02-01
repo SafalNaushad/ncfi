@@ -1,0 +1,40 @@
+
+Safal Naushad
+Button click change style in style.css  golbally angular
+
+To change styles globally in your Angular application, you can use a class in your global stylesheet (e.g., style.css) and toggle the class on the HTML element using event binding when a button is clicked.
+
+Add a class in your global stylesheet:
+css
+Copy code
+.highlight {
+  background-color: yellow;
+}
+Add a button to your component's template:
+php
+Copy code
+<button (click)="toggleHighlight()">Toggle Highlight</button>
+In your component's class, create a method toggleHighlight that toggles a property used to control the class on the HTML element:
+kotlin
+Copy code
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-my-component',
+  templateUrl: './my-component.component.html',
+})
+export class MyComponentComponent {
+  isHighlighted = false;
+
+  toggleHighlight() {
+    this.isHighlighted = !this.isHighlighted;
+  }
+}
+In your component's template, bind the class to the property using ngClass:
+css
+Copy code
+<body [ngClass]="{'highlight': isHighlighted}">
+  <h1>Hello World</h1>
+  <button (click)="toggleHighlight()">Toggle Highlight</button>
+</body>
+This will toggle the highlight class on the <body> element when the button is clicked, changing the background color of the entire page.
