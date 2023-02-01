@@ -1,0 +1,17 @@
+To pass Arabic in the API header when switching the direction to RTL in the header component button in Angular,
+you can use the HTTP headers to pass the language information to the API. Here is a sample code for how you can set the header to pass the language information:
+
+javascript
+Copy code
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept-Language': 'ar' // or any other language code you want to pass
+  })
+};
+
+this.http.get(yourApiEndpoint, httpOptions).subscribe(response => {
+  // your logic to handle the API response
+});
+In this code, the Accept-Language header is set to ar to indicate that the API should return the response in Arabic. 
+You can adjust the header as needed to match your API's requirements.
