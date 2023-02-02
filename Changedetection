@@ -1,0 +1,37 @@
+
+Safal Naushad
+Calling a service in a component variable. But the change in variable not showing on html binding. example
+
+Here's an example to demonstrate how to resolve the issue of changes to a component variable not reflecting in the HTML template:
+
+typescript
+Copy code
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
+import { MyService } from './my.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <p>{{ message }}</p>
+  `
+})
+export class AppComponent {
+  message: string;
+
+  constructor(
+    private myService: MyService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private ngZone: NgZone
+  ) { }
+
+  ngOnInit() {
+    this.myService.getMessage().subscribe(message => {
+      this.ngZone.run(() => {
+        this.message = message;
+        this.changeDetectorRef.detectChanges();
+      });
+    });
+  }
+}
+In this example, the AppComponent subscribes to the message returned from MyService
+ and updates the message variable with the latest value. The HTML template binds to the message variable using property binding ({{ message }}). To ensure that the changes to the message variable are reflected in the template, we run the code inside the Angular zone using the ngZone.run method. Finally, we manually trigger change detection using the changeDetectorRef.detectChanges method.
