@@ -1,0 +1,44 @@
+Here's an example of how you could implement a queue to show SweetAlert2 and toaster notifications one by one in Angular:
+
+kotlin
+Copy code
+import { Injectable } from '@angular/core';
+import Swal from 'sweetalert2';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AlertQueueService {
+  private queue: any[] = [];
+
+  addToQueue(alert: any) {
+    this.queue.push(alert);
+    this.processQueue();
+  }
+
+  private processQueue() {
+    if (this.queue.length === 0) {
+      return;
+    }
+
+    const alert = this.queue[0];
+    if (alert.type === 'sweetalert2') {
+      Swal.fire(alert.options).then(() => {
+        this.queue.shift();
+        this.processQueue();
+      });
+    } else if (alert.type === 'toaster') {
+      // Code to show toaster notification
+      // ...
+
+      // Remove the alert from the queue
+      this.queue.shift();
+      this.processQueue();
+    }
+  }
+}
+In this example, the AlertQueueService manages a queue of alerts and processes them one by one 
+using the processQueue method. To add a SweetAlert2 alert to the queue, you can call the addToQueue
+method and pass in an object with the type sweetalert2 and the options for the alert. To add a toaster 
+notification to the queue, you can pass in an object with the type toaster. You can modify the processQueue 
+method to show the toaster notification using the library of your choice.
