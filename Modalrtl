@@ -1,0 +1,135 @@
+
+New chat
+
+
+Safal Naushad
+Add conditional scss when direction is rtl angular 
+
+Here's how you can add a conditional style in SCSS for when the direction is RTL in Angular:
+
+scss
+Copy code
+@import '@angular/common';
+
+:host-context([dir="rtl"]) {
+  /* Your RTL-specific styles here */
+  [dir="rtl"] {
+    /* Your RTL-specific styles here */
+  }
+}
+This will apply the styles inside the :host-context directive only when the parent component's dir attribute is set to "rtl". The inner [dir="rtl"] selector is used to target elements with the dir attribute set to "rtl" inside the component.
+
+
+2 / 2
+
+
+
+
+Safal Naushad
+Add conditional scss when a service variable == rtl add a style 
+
+Here's how you can add a conditional style in SCSS based on a service variable in Angular:
+
+First, you need to create a service that holds the value of the direction and expose it as a variable:
+
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirectionService {
+  direction = 'ltr';
+
+  setDirection(direction: string) {
+    this.direction = direction;
+  }
+}
+Then, in your component, you can use the service to get the direction and pass it as a class to the component:
+
+typescript
+Copy code
+import { Component } from '@angular/core';
+import { DirectionService } from './direction.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div [ngClass]="{ 'rtl': direction === 'rtl' }">
+      <!-- your content here -->
+    </div>
+  `,
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  direction: string;
+
+  constructor(private directionService: DirectionService) {
+    this.direction = this.directionService.direction;
+  }
+}
+Finally, in your SCSS file, you can add the conditional style based on the class:
+
+javascript
+Copy code
+.rtl {
+  /* Your RTL-specific styles here */
+}
+This way, whenever the direction in the DirectionService changes, the component's class will be updated, and the styles in your SCSS file will be applied conditionally.
+
+
+
+
+Safal Naushad
+Add conditional scss. when a service variable == rtl add a style else not to add style
+
+Here's an example of how you can conditionally add a style in SCSS based on a service variable in Angular:
+
+First, you need to create a service that holds the value of the direction and exposes it as a variable:
+
+typescript
+Copy code
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DirectionService {
+  direction = 'ltr';
+
+  setDirection(direction: string) {
+    this.direction = direction;
+  }
+}
+Then, in your component, you can use the service to get the direction and pass it as a class to the component:
+
+typescript
+Copy code
+import { Component } from '@angular/core';
+import { DirectionService } from './direction.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div [ngClass]="{ 'rtl': direction === 'rtl' }">
+      <!-- your content here -->
+    </div>
+  `,
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  direction: string;
+
+  constructor(private directionService: DirectionService) {
+    this.direction = this.directionService.direction;
+  }
+}
+Finally, in your SCSS file, you can add the conditional style based on the class:
+
+javascript
+Copy code
+.rtl {
+  /* Your RTL-specific styles here */
+}
+This way, whenever the direction in the DirectionService changes, the component's class will be updated, and the styles in your SCSS file will be applied conditionally. If the direction is not set to "rtl", no styles will be applied.
